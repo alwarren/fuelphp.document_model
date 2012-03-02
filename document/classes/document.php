@@ -153,27 +153,40 @@ class Document extends DocumentAbstract
 	}
 	
 	/**
-	 * Render the Javascript container
-	 * 
-	 * @return string|NULL
-	 */
-	static protected function renderJs()
-	{
-		if ( is_set(self::$js) && is_array(self::$js) && count(self::$js))
-			return parent::js(self::$js);
-		return null;
-	}
-	
-	/**
 	 * Render the CSS container
 	 * 
 	 * @return string|NULL
 	 */
-	static protected function renderCss()
+	static protected function renderCss($css=null)
 	{
+		if (!empty($css))
+		{
+			$css = (array) $css;
+			return parent::css($css);
+		}
+		
 		if ( is_set(self::$css) && is_array(self::$css) && count(self::$css))
 			return parent::css(self::$css);
+		
 		return null;
 	}
 	
+	/**
+	 * Render the Javascript container
+	 * 
+	 * @return string|NULL
+	 */
+	static protected function renderJs($js=null)
+	{
+		if (!empty($js))
+		{
+			$js = (array) $js;
+			return parent::js($js);
+		}
+		
+		if ( is_set(self::$js) && is_array(self::$js) && count(self::$js))
+			return parent::js(self::$js);
+		
+		return null;
+	}
 }
