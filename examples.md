@@ -48,7 +48,7 @@ How about rendering a complete html opening tag:
 echo Document::render('htmlopen');
 
 // to get this based on the doctype, language, and direction
-&lt;html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" dir="ltr">
 </code>
 </pre>
 
