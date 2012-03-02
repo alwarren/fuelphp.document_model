@@ -28,7 +28,7 @@ Here's an example of rendering the DTD:
 <pre>
 <code>
 // in a controller or anywhere else
-Document::doctype = 'xhtml11';
+Document::set('doctype', 'xhtml11');
 
 //then in the view
 echo Document::render('doctype');
@@ -80,7 +80,7 @@ Create a container as an array and append/prepend value:
 <pre>
 <code>
 // Create the container
-Document::set('myBucket' = array());
+Document::set('myBucket', array());
 
 // add some values to the container
 Document::append('myBucket', 'myValue1');
