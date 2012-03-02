@@ -145,11 +145,35 @@ class Document extends DocumentAbstract
 	 * @param string
 	 * @return string
 	 */
-	static public function renderTitle($title=null)
+	static protected function renderTitle($title=null)
 	{
 		$title = empty($title) ? implode(self::$separator, self::$title) : $title;
 		$html = empty($title) ? null : html_tag('title', null, $title) . self::$eol;
 		return $html;
+	}
+	
+	/**
+	 * Render the Javascript container
+	 * 
+	 * @return string|NULL
+	 */
+	static protected function renderJs()
+	{
+		if ( is_set(self::$js) && is_array(self::$js) && count(self::$js))
+			return parent::js(self::$js);
+		return null;
+	}
+	
+	/**
+	 * Render the CSS container
+	 * 
+	 * @return string|NULL
+	 */
+	static protected function renderCss()
+	{
+		if ( is_set(self::$css) && is_array(self::$css) && count(self::$css))
+			return parent::css(self::$css);
+		return null;
 	}
 	
 }

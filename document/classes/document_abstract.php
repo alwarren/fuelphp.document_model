@@ -112,6 +112,20 @@ class DocumentAbstract
 	static protected $title = array();
 	
 	/**
+	* CSS Container
+	*
+	* @var array
+	*/
+	static protected $css = array();
+	
+	/**
+	* Javascript Container
+	*
+	* @var array
+	*/
+	static protected $js = array();
+	
+	/**
 	* Valid Languages
 	*
 	* @var array
@@ -180,7 +194,9 @@ class DocumentAbstract
 				return;
 			break;
 			case 'title':
-				self::$title = array((string) $value);
+			case 'css':
+			case 'js':
+				self::$$name = is_array($value) ? $value : array((string) $value);
 			break;
 			case 'logging':
 				self::$logging = (bool) $value;
