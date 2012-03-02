@@ -339,12 +339,9 @@ class DocumentAbstract
 	 * 
 	 * @return string
 	 */
-	static public function css()
+	static public function css($stylesheets = array(), $attr = array(), $group = NULL, $raw = false)
 	{
-		if(func_num_args())
-			return \Asset::css(func_get_args());
-		else
-			return \Asset::css();
+		return \Asset::css($stylesheets, $attr, $group, $raw);
 	}
 	
 	/**
@@ -352,12 +349,9 @@ class DocumentAbstract
 	 * 
 	 * @return string
 	 */
-	static public function js()
+	static public function js($scripts = array(), $attr = array(), $group = NULL, $raw = false)
 	{
-		if(func_num_args())
-			return \Asset::js(func_get_args());
-		else
-			return \Asset::js();
+		return \Asset::js($scripts, $attr, $group, $raw);
 	}
 	
 	/**
@@ -365,12 +359,9 @@ class DocumentAbstract
 	 * 
 	 * @return string
 	 */
-	static public function img()
+	static public function img($images = array(), $attr = array(), $group = NULL)
 	{
-		if(func_num_args())
-			return \Asset::img(func_get_args());
-		else
-			return \Asset::img();
+		return \Asset::img($images, $attr, $group);
 	}
 	
 	/**
