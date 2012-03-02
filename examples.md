@@ -31,10 +31,13 @@ Here's an example of rendering the DTD:
 Document::set('doctype', 'xhtml11');
 
 //then in the view
-echo Document::render('doctype');
+echo Document::render('dtd');
 
 // or you can do this
-echo Document::doctype('xhtml11');
+echo Document::render('dtd', 'xhtml11');
+
+// or this
+echo Document::render('doctype', 'xhtml11');
 </code>
 </pre>
 
