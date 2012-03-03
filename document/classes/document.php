@@ -165,7 +165,7 @@ class Document extends DocumentAbstract
 			return parent::css($css);
 		}
 		
-		if ( is_set(self::$css) && is_array(self::$css) && count(self::$css))
+		if ( isset(self::$css) && is_array(self::$css) && count(self::$css))
 			return parent::css(self::$css);
 		
 		return null;
@@ -184,7 +184,7 @@ class Document extends DocumentAbstract
 			return parent::js($js);
 		}
 		
-		if ( is_set(self::$js) && is_array(self::$js) && count(self::$js))
+		if ( isset(self::$js) && is_array(self::$js) && count(self::$js))
 			return parent::js(self::$js);
 		
 		return null;
