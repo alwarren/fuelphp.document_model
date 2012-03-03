@@ -251,7 +251,7 @@ class DocumentAbstract
 			return null;
 		}
 	
-		if(isset(self::$name))
+		if(isset(self::$$name))
 		{
 			$list = self::$$name;
 			array_unshift($list, $value);
@@ -294,7 +294,7 @@ class DocumentAbstract
 			return null;
 		}
 	
-		if(isset(self::$name))
+		if(isset(self::$$name))
 		{
 			$list = self::$$name;
 			$list[] = $value;
