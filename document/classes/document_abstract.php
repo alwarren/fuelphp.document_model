@@ -140,6 +140,13 @@ class DocumentAbstract
 	static protected $areas = array();
 	
 	/**
+	* Generic Container
+	*
+	* @var array
+	*/
+	static protected $container = array();
+	
+	/**
 	* Logging
 	*
 	* @var boolean
@@ -172,6 +179,10 @@ class DocumentAbstract
 			default:
 				if(isset(self::$$name))
 					return self::$$name;
+				elseif(isset(self::$container[$name]))
+					return self::$container[$name];
+				else
+					return null;
 			break;
 		}
 		if(self::$logging)
@@ -203,7 +214,10 @@ class DocumentAbstract
 			break;
 			
 			default:
-				self::$$name = $value;
+				if(isset(self::$$name))
+					self::$$name = $value;
+				else
+					self::$container[$name] = $value;
 			break;
 		}
 	}
