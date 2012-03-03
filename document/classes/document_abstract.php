@@ -60,7 +60,7 @@ class DocumentAbstract
 	 * 
 	 * @var string
 	 */
-	static protected $doctype = null;
+	static protected $doctype = '';
 
 	/**
 	* Character set
@@ -126,6 +126,13 @@ class DocumentAbstract
 	static protected $js = array();
 	
 	/**
+	* Generic Container
+	*
+	* @var array
+	*/
+	static protected $container = array();
+	
+	/**
 	* Valid Languages
 	*
 	* @var array
@@ -161,6 +168,9 @@ class DocumentAbstract
 	*/
 	static public function get($name)
 	{
+		if(isset(self::$container[$name]))
+			return self::$container[$name];
+		
 		switch ($name) {
 			// disallowed for get
 			case 'doctypes':
@@ -186,25 +196,32 @@ class DocumentAbstract
 	*/
 	static public function set($name, $value)
 	{
-		switch ($name) {
-			// disallowed for set
-			case 'doctypes':
-				if(self::$logging)
-					logger(\Fuel::L_WARNING, "Setting static Document::$$name is not allowed", __METHOD__);
-				return;
-			break;
-			case 'title':
-			case 'css':
-			case 'js':
-				self::$$name = is_array($value) ? $value : array((string) $value);
-			break;
-			case 'logging':
-				self::$logging = (bool) $value;
-			break;
-			
-			default:
-				self::$$name = $value;
-			break;
+		if(!isset(self::$$name))
+		{
+			self::$container[$name] = $value;
+		}
+		else
+		{
+			switch ($name) {
+				// disallowed for set
+				case 'doctypes':
+					if(self::$logging)
+						logger(\Fuel::L_WARNING, "Setting static Document::$$name is not allowed", __METHOD__);
+					return;
+				break;
+				case 'title':
+				case 'css':
+				case 'js':
+					self::$$name = is_array($value) ? $value : array((string) $value);
+				break;
+				case 'logging':
+					self::$logging = (bool) $value;
+				break;
+				
+				default:
+					self::$$name = $value;
+				break;
+			}
 		}
 	}
 	
@@ -216,30 +233,40 @@ class DocumentAbstract
 	*/
 	static public function prepend($name, $value)
 	{
-		if(empty($value))
+		if(isset(self::$container[$name]))
 		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Value can not be empty", __METHOD__);
-			return null;
+			$list = self::$$name;
+			array_unshift($list, $value);
+			self::$container[$name] = $list;
 		}
-	
-		if(!isset(self::$$name))
+		else
 		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Document::$$name does not exist", __METHOD__);
-			return null;
+			
+			if(empty($value))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Value can not be empty", __METHOD__);
+				return null;
+			}
+		
+			if(!isset(self::$$name))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Document::$$name does not exist", __METHOD__);
+				return null;
+			}
+		
+			if(!is_array(self::$$name) || is_object(self::$$name))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Document::$$name is not an array", __METHOD__);
+				return null;
+			}
+		
+			$list = self::$$name;
+			array_unshift($list, $value);
+			self::$$name = $list;
 		}
-	
-		if(!is_array(self::$$name) || is_object(self::$$name))
-		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Document::$$name is not an array", __METHOD__);
-			return null;
-		}
-	
-		$list = self::$$name;
-		array_unshift($list, $value);
-		self::$$name = $list;
 	}
 	
 	/**
@@ -250,30 +277,39 @@ class DocumentAbstract
 	*/
 	static public function append($name, $value)
 	{
-		if(empty($value))
+		if(isset(self::$container[$name]))
 		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Value can not be empty", __METHOD__);
-			return null;
+			$list = self::$container[$name];
+			$list[] = $value;
+			self::$container[$name] = $list;
 		}
-	
-		if(!isset(self::$$name))
+		else
 		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Document::$$name does not exist", __METHOD__);
-			return null;
+			if(empty($value))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Value can not be empty", __METHOD__);
+				return null;
+			}
+		
+			if(!isset(self::$$name))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Document::$$name does not exist", __METHOD__);
+				return null;
+			}
+		
+			if(!is_array(self::$$name) || is_object(self::$$name))
+			{
+				if(self::$logging)
+					logger(\Fuel::L_WARNING, "Document::$$name is not an array", __METHOD__);
+				return null;
+			}
+		
+			$list = self::$$name;
+			$list[] = $value;
+			self::$$name = $list;
 		}
-	
-		if(!is_array(self::$$name) || is_object(self::$$name))
-		{
-			if(self::$logging)
-				logger(\Fuel::L_WARNING, "Document::$$name is not an array", __METHOD__);
-			return null;
-		}
-	
-		$list = self::$$name;
-		$list[] = $value;
-		self::$$name = $list;
 	}
 	
 	/**
