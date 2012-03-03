@@ -251,9 +251,18 @@ class DocumentAbstract
 			return null;
 		}
 	
-		$list = self::$$name;
-		array_unshift($list, $value);
-		self::$$name = $list;
+		if(isset(self::$name))
+		{
+			$list = self::$$name;
+			array_unshift($list, $value);
+			self::$$name = $list;
+		}
+		elseif(isset(self::$container[$name]))
+		{
+			$list = self::$container[$name];
+			array_unshift($list, $value);
+			self::$container[$name] = $list;
+		}
 	}
 	
 	/**
@@ -285,9 +294,18 @@ class DocumentAbstract
 			return null;
 		}
 	
-		$list = self::$$name;
-		$list[] = $value;
-		self::$$name = $list;
+		if(isset(self::$name))
+		{
+			$list = self::$$name;
+			$list[] = $value;
+			self::$$name = $list;
+		}
+		elseif(isset(self::$container[$name]))
+		{
+			$list = self::$container[$name];
+			$list[] = $value;
+			self::$container[$name]= $list;
+		}
 	}
 	
 	/**
